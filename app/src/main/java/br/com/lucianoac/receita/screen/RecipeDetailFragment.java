@@ -28,12 +28,12 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import br.com.lucianoac.receita.PopularMoviesApp;
+import br.com.lucianoac.receita.PopularRecipesApp;
 import br.com.lucianoac.receita.R;
-import br.com.lucianoac.receita.api.MovieReviewsResponse;
-import br.com.lucianoac.receita.api.MovieVideosResponse;
-import br.com.lucianoac.receita.api.TheMovieDbService;
-import br.com.lucianoac.receita.dto.MovieObject;
+import br.com.lucianoac.receita.api.RecipeReviewsResponse;
+import br.com.lucianoac.receita.api.RecipeVideosResponse;
+import br.com.lucianoac.receita.api.TheRecipeDbService;
+import br.com.lucianoac.receita.dto.RecipeObject;
 import br.com.lucianoac.receita.dto.ReviewObject;
 import br.com.lucianoac.receita.dto.VideoObject;
 import br.com.lucianoac.receita.util.ItemOffsetDecoration;
@@ -43,7 +43,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class MovieDetailFragment extends RxFragment {
+public class RecipeDetailFragment extends RxFragment {
 
     private static final String POSTER_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
     private static final String POSTER_IMAGE_SIZE = "w780";
@@ -51,7 +51,7 @@ public class MovieDetailFragment extends RxFragment {
     private static final String ARG_MOVIE = "ArgMovie";
     private static final String MOVIE_VIDEOS_KEY = "MovieVideos";
     private static final String MOVIE_REVIEWS_KEY = "MovieReviews";
-    private static final String LOG_TAG = "MovieDetailFragment";
+    private static final String LOG_TAG = "RecipeDetailFragment";
 
     private static final double VOTE_PERFECT = 9.0;
     private static final double VOTE_GOOD = 7.0;
@@ -83,18 +83,18 @@ public class MovieDetailFragment extends RxFragment {
     RecyclerView movieReviews;
 
     @Inject
-    TheMovieDbService theMovieDbService;
+    TheRecipeDbService theRecipeDbService;
 
-    private MovieObject movie;
-    private MovieVideosAdapter videosAdapter;
-    private MovieReviewsAdapter reviewsAdapter;
+    private RecipeObject movie;
+    private RecipeVideosAdapter videosAdapter;
+    private RecipeReviewsAdapter reviewsAdapter;
 
-    public MovieDetailFragment() {
+    public RecipeDetailFragment() {
         // Required empty public constructor
     }
 
-    public static MovieDetailFragment create(MovieObject movie) {
-        MovieDetailFragment fragment = new MovieDetailFragment();
+    public static RecipeDetailFragment create(RecipeObject movie) {
+        RecipeDetailFragment fragment = new RecipeDetailFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_MOVIE, movie);
         fragment.setArguments(args);
@@ -108,12 +108,12 @@ public class MovieDetailFragment extends RxFragment {
             movie = getArguments().getParcelable(ARG_MOVIE);
         }
 
-        ((PopularMoviesApp) getActivity().getApplication()).getNetworkComponent().inject(this);
+        ((PopularRecipesApp) getActivity().getApplication()).getNetworkComponent().inject(this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_movie_detail, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
         ButterKnife.bind(this, rootView);
         initViews();
         initVideosList();
@@ -186,10 +186,10 @@ public class MovieDetailFragment extends RxFragment {
     }
 
     private void loadMovieVideos() {
-        theMovieDbService.getMovieVideos(movie.getId())
+        theRecipeDbService.getMovieVideos(movie.getId())
                 .compose(bindToLifecycle())
                 .subscribeOn(Schedulers.newThread())
-                .map(MovieVideosResponse::getResults)
+                .map(RecipeVideosResponse::getResults)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ArrayList<VideoObject>>() {
                     @Override
@@ -212,10 +212,10 @@ public class MovieDetailFragment extends RxFragment {
     }
 
     private void loadMovieReviews() {
-        theMovieDbService.getMovieReviews(movie.getId())
+        theRecipeDbService.getMovieReviews(movie.getId())
                 .compose(bindToLifecycle())
                 .subscribeOn(Schedulers.newThread())
-                .map(MovieReviewsResponse::getResults)
+                .map(RecipeReviewsResponse::getResults)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ArrayList<ReviewObject>>() {
                     @Override
@@ -266,7 +266,7 @@ public class MovieDetailFragment extends RxFragment {
     }
 
     private void initVideosList() {
-        videosAdapter = new MovieVideosAdapter(getContext());
+        videosAdapter = new RecipeVideosAdapter(getContext());
         videosAdapter.setOnItemClickListener((itemView, position) -> onMovieVideoClicked(position));
         movieVideos.setAdapter(videosAdapter);
         movieVideos.setItemAnimator(new DefaultItemAnimator());
@@ -277,7 +277,7 @@ public class MovieDetailFragment extends RxFragment {
     }
 
     private void initReviewsList() {
-        reviewsAdapter = new MovieReviewsAdapter();
+        reviewsAdapter = new RecipeReviewsAdapter();
         reviewsAdapter.setOnItemClickListener((itemView, position) -> onMovieReviewClicked(position));
         movieReviews.setAdapter(reviewsAdapter);
         movieReviews.setItemAnimator(new DefaultItemAnimator());

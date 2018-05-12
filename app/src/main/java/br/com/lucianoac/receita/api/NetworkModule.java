@@ -44,15 +44,15 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    TheMovieDbService providesTheMovieDbService(Retrofit retrofit) {
-        return retrofit.create(TheMovieDbService.class);
+    TheRecipeDbService providesTheMovieDbService(Retrofit retrofit) {
+        return retrofit.create(TheRecipeDbService.class);
     }
 
     @Provides
     @Singleton
-    public MoviesService providesMoviesService(Application application, TheMovieDbService theMovieDbService,
-                                               SortHelper sortHelper) {
-        return new MoviesService(application.getApplicationContext(), theMovieDbService, sortHelper);
+    public RecipesService providesMoviesService(Application application, TheRecipeDbService theRecipeDbService,
+                                                SortHelper sortHelper) {
+        return new RecipesService(application.getApplicationContext(), theRecipeDbService, sortHelper);
     }
 
     @Provides

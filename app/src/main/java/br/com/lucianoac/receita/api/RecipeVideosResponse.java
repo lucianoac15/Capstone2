@@ -6,14 +6,14 @@ import java.util.ArrayList;
 
 import br.com.lucianoac.receita.dto.VideoObject;
 
-public class MovieVideosResponse {
+public class RecipeVideosResponse {
     @SerializedName("id")
     private long movieId;
 
     @SerializedName("results")
     private ArrayList<VideoObject> results;
 
-    public MovieVideosResponse(long movieId, ArrayList<VideoObject> results) {
+    public RecipeVideosResponse(long movieId, ArrayList<VideoObject> results) {
         this.movieId = movieId;
         this.results = results;
     }

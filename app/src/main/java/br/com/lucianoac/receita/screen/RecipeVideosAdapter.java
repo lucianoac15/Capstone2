@@ -19,7 +19,7 @@ import br.com.lucianoac.receita.dto.VideoObject;
 import br.com.lucianoac.receita.util.OnItemClickListener;
 
 
-public class MovieVideosAdapter extends RecyclerView.Adapter<MovieVideoViewHolder> {
+public class RecipeVideosAdapter extends RecyclerView.Adapter<RecipeVideoViewHolder> {
 
     private static final String YOUTUBE_THUMBNAIL = "https://img.youtube.com/vi/%s/mqdefault.jpg";
     private final Context context;
@@ -29,7 +29,7 @@ public class MovieVideosAdapter extends RecyclerView.Adapter<MovieVideoViewHolde
     @Nullable
     private OnItemClickListener onItemClickListener;
 
-    public MovieVideosAdapter(Context context) {
+    public RecipeVideosAdapter(Context context) {
         this.context = context;
         movieVideos = new ArrayList<>();
     }
@@ -49,14 +49,14 @@ public class MovieVideosAdapter extends RecyclerView.Adapter<MovieVideoViewHolde
     }
 
     @Override
-    public MovieVideoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_movie_video, parent, false);
-        return new MovieVideoViewHolder(itemView, onItemClickListener);
+    public RecipeVideoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_recipe_video, parent, false);
+        return new RecipeVideoViewHolder(itemView, onItemClickListener);
     }
 
     @Override
     @SuppressLint("PrivateResource")
-    public void onBindViewHolder(MovieVideoViewHolder holder, int position) {
+    public void onBindViewHolder(RecipeVideoViewHolder holder, int position) {
         if (movieVideos == null) {
             return;
         }

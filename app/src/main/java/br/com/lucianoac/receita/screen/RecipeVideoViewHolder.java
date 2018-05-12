@@ -10,7 +10,7 @@ import br.com.lucianoac.receita.util.OnItemClickListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MovieVideoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class RecipeVideoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     @BindView(R.id.movie_video_thumbnail)
     ImageView movieVideoThumbnail;
@@ -18,7 +18,7 @@ public class MovieVideoViewHolder extends RecyclerView.ViewHolder implements Vie
     @Nullable
     private OnItemClickListener onItemClickListener;
 
-    public MovieVideoViewHolder(View itemView, @Nullable OnItemClickListener onItemClickListener) {
+    public RecipeVideoViewHolder(View itemView, @Nullable OnItemClickListener onItemClickListener) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.onItemClickListener = onItemClickListener;

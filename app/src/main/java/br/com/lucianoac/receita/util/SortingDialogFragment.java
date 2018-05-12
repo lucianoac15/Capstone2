@@ -12,7 +12,7 @@ import android.support.v7.app.AlertDialog;
 
 import javax.inject.Inject;
 
-import br.com.lucianoac.receita.PopularMoviesApp;
+import br.com.lucianoac.receita.PopularRecipesApp;
 import br.com.lucianoac.receita.R;
 
 
@@ -29,7 +29,7 @@ public class SortingDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        ((PopularMoviesApp) getActivity().getApplication()).getNetworkComponent().inject(this);
+        ((PopularRecipesApp) getActivity().getApplication()).getNetworkComponent().inject(this);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.DialogStyle);
         builder.setTitle(getString(R.string.sort_dialog_title));

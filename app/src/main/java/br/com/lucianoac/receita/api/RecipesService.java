@@ -12,8 +12,8 @@ import android.util.Log;
 
 import javax.inject.Inject;
 
-import br.com.lucianoac.receita.dto.MovieObject;
-import br.com.lucianoac.receita.sql.MoviesContract;
+import br.com.lucianoac.receita.dto.RecipeObject;
+import br.com.lucianoac.receita.sql.RecipesContract;
 import br.com.lucianoac.receita.util.SortHelper;
 
 import rx.Observable;
@@ -21,25 +21,25 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class MoviesService {
+public class RecipesService {
 
     public static final String BROADCAST_UPDATE_FINISHED = "UpdateFinished";
     public static final String EXTRA_IS_SUCCESSFUL_UPDATED = "isSuccessfulUpdated";
 
     private static final int PAGE_SIZE = 20;
-    private static final String LOG_TAG = "MoviesService";
+    private static final String LOG_TAG = "RecipesService";
 
     private SortHelper sortHelper;
     private final Context context;
     private volatile boolean loading = false;
 
-    private TheMovieDbService theMovieDbService;
+    private TheRecipeDbService theRecipeDbService;
 
     @Inject
-    public MoviesService(Context context, TheMovieDbService theMovieDbService, SortHelper sortHelper) {
+    public RecipesService(Context context, TheRecipeDbService theRecipeDbService, SortHelper sortHelper) {
         this.context = context.getApplicationContext();
         this.sortHelper = sortHelper;
-        this.theMovieDbService = theMovieDbService;
+        this.theRecipeDbService = theRecipeDbService;
     }
 
     public void refreshMovies() {
@@ -71,14 +71,14 @@ public class MoviesService {
 
     private void callDiscoverMovies(String sort, @Nullable Integer page) {
 
-        theMovieDbService.discoverMovies(sort, page)
+        theRecipeDbService.discoverMovies(sort, page)
                 .subscribeOn(Schedulers.newThread())
                 .doOnNext(discoverMoviesResponse -> clearMoviesSortTableIfNeeded(discoverMoviesResponse))
                 .doOnNext(discoverMoviesResponse -> logResponse(discoverMoviesResponse))
                 .map(discoverMoviesResponse -> discoverMoviesResponse.getResults())
                 .flatMap(movies -> Observable.from(movies))
                 .map(movie -> saveMovie(movie))
-                .map(movieUri -> MoviesContract.MovieEntry.getIdFromUri(movieUri))
+                .map(movieUri -> RecipesContract.MovieEntry.getIdFromUri(movieUri))
                 .doOnNext(movieId -> saveMovieReference(movieId))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Long>() {
@@ -104,20 +104,20 @@ public class MoviesService {
 
     private void saveMovieReference(Long movieId) {
         ContentValues entry = new ContentValues();
-        entry.put(MoviesContract.COLUMN_MOVIE_ID_KEY, movieId);
+        entry.put(RecipesContract.COLUMN_MOVIE_ID_KEY, movieId);
         context.getContentResolver().insert(sortHelper.getSortedMoviesUri(), entry);
     }
 
-    private Uri saveMovie(MovieObject movie) {
-        return context.getContentResolver().insert(MoviesContract.MovieEntry.CONTENT_URI, movie.toContentValues());
+    private Uri saveMovie(RecipeObject movie) {
+        return context.getContentResolver().insert(RecipesContract.MovieEntry.CONTENT_URI, movie.toContentValues());
     }
 
-    private void logResponse(SearchResponse<MovieObject> discoverMoviesResponse) {
+    private void logResponse(SearchResponse<RecipeObject> discoverMoviesResponse) {
         Log.d(LOG_TAG, "page == " + discoverMoviesResponse.getPage() + " " +
                 discoverMoviesResponse.getResults().toString());
     }
 
-    private void clearMoviesSortTableIfNeeded(SearchResponse<MovieObject> discoverMoviesResponse) {
+    private void clearMoviesSortTableIfNeeded(SearchResponse<RecipeObject> discoverMoviesResponse) {
         if (discoverMoviesResponse.getPage() == 1) {
             context.getContentResolver().delete(
                     sortHelper.getSortedMoviesUri(),

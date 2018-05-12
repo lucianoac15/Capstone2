@@ -6,7 +6,7 @@ import android.database.Cursor;
 
 import javax.inject.Inject;
 
-import br.com.lucianoac.receita.dto.MovieObject;
+import br.com.lucianoac.receita.dto.RecipeObject;
 
 public class FavoritesService {
 
@@ -17,27 +17,27 @@ public class FavoritesService {
         this.context = context.getApplicationContext();
     }
 
-    public void addToFavorites(MovieObject movie) {
-        context.getContentResolver().insert(MoviesContract.MovieEntry.CONTENT_URI, movie.toContentValues());
+    public void addToFavorites(RecipeObject movie) {
+        context.getContentResolver().insert(RecipesContract.MovieEntry.CONTENT_URI, movie.toContentValues());
         ContentValues contentValues = new ContentValues();
-        contentValues.put(MoviesContract.COLUMN_MOVIE_ID_KEY, movie.getId());
-        context.getContentResolver().insert(MoviesContract.Favorites.CONTENT_URI, contentValues);
+        contentValues.put(RecipesContract.COLUMN_MOVIE_ID_KEY, movie.getId());
+        context.getContentResolver().insert(RecipesContract.Favorites.CONTENT_URI, contentValues);
     }
 
-    public void removeFromFavorites(MovieObject movie) {
+    public void removeFromFavorites(RecipeObject movie) {
         context.getContentResolver().delete(
-                MoviesContract.Favorites.CONTENT_URI,
-                MoviesContract.COLUMN_MOVIE_ID_KEY + " = " + movie.getId(),
+                RecipesContract.Favorites.CONTENT_URI,
+                RecipesContract.COLUMN_MOVIE_ID_KEY + " = " + movie.getId(),
                 null
         );
     }
 
-    public boolean isFavorite(MovieObject movie) {
+    public boolean isFavorite(RecipeObject movie) {
         boolean favorite = false;
         Cursor cursor = context.getContentResolver().query(
-                MoviesContract.Favorites.CONTENT_URI,
+                RecipesContract.Favorites.CONTENT_URI,
                 null,
-                MoviesContract.COLUMN_MOVIE_ID_KEY + " = " + movie.getId(),
+                RecipesContract.COLUMN_MOVIE_ID_KEY + " = " + movie.getId(),
                 null,
                 null
         );

@@ -18,7 +18,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import br.com.lucianoac.receita.R;
@@ -29,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public abstract class AbstractMoviesGridFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,
+public abstract class AbstractRecipesGridFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>,
         OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private static final int LOADER_ID = 0;
@@ -43,12 +42,12 @@ public abstract class AbstractMoviesGridFragment extends Fragment implements Loa
     @BindView(R.id.view_no_network)
     RelativeLayout noNetworkView;
 
-    private MoviesAdapter adapter;
+    private RecipesAdapter adapter;
 
     private OnItemSelectedListener onItemSelectedListener;
     private GridLayoutManager gridLayoutManager;
 
-    public AbstractMoviesGridFragment() {
+    public AbstractRecipesGridFragment() {
     }
 
     @NonNull
@@ -80,7 +79,7 @@ public abstract class AbstractMoviesGridFragment extends Fragment implements Loa
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_movies_grid, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_recipes_grid, container, false);
         ButterKnife.bind(this, rootView);
 
         initSwipeRefreshLayout();
@@ -101,7 +100,7 @@ public abstract class AbstractMoviesGridFragment extends Fragment implements Loa
     }
 
     protected void restartLoader() {
-        getLoaderManager().restartLoader(LOADER_ID, null, AbstractMoviesGridFragment.this);
+        getLoaderManager().restartLoader(LOADER_ID, null, AbstractRecipesGridFragment.this);
     }
 
     @Override
@@ -126,7 +125,7 @@ public abstract class AbstractMoviesGridFragment extends Fragment implements Loa
         onRefreshAction();
     }
 
-    public MoviesAdapter getAdapter() {
+    public RecipesAdapter getAdapter() {
         return adapter;
     }
 
@@ -160,7 +159,7 @@ public abstract class AbstractMoviesGridFragment extends Fragment implements Loa
     }
 
     protected void initMoviesGrid() {
-        adapter = new MoviesAdapter(getContext(), null);
+        adapter = new RecipesAdapter(getContext(), null);
         adapter.setOnItemClickListener(this);
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

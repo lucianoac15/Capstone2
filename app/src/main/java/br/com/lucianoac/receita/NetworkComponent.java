@@ -3,9 +3,9 @@ package br.com.lucianoac.receita;
 import br.com.lucianoac.receita.api.NetworkModule;
 import br.com.lucianoac.receita.screen.MainActivity;
 import br.com.lucianoac.receita.util.SortingDialogFragment;
-import br.com.lucianoac.receita.screen.MovieDetailActivity;
-import br.com.lucianoac.receita.screen.MovieDetailFragment;
-import br.com.lucianoac.receita.screen.MoviesGridFragment;
+import br.com.lucianoac.receita.screen.RecipeDetailActivity;
+import br.com.lucianoac.receita.screen.RecipeDetailFragment;
+import br.com.lucianoac.receita.screen.RecipesGridFragment;
 
 import javax.inject.Singleton;
 
@@ -15,14 +15,14 @@ import dagger.Component;
 @Component(modules = {AppModule.class, NetworkModule.class})
 public interface NetworkComponent {
 
-    void inject(MoviesGridFragment moviesGridFragment);
+    void inject(RecipesGridFragment recipesGridFragment);
 
     void inject(MainActivity mainActivity);
 
     void inject(SortingDialogFragment sortingDialogFragment);
 
-    void inject(MovieDetailActivity movieDetailActivity);
+    void inject(RecipeDetailActivity recipeDetailActivity);
 
-    void inject(MovieDetailFragment movieDetailFragment);
+    void inject(RecipeDetailFragment recipeDetailFragment);
 
 }

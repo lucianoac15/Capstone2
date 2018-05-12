@@ -4,10 +4,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
-import br.com.lucianoac.receita.sql.MoviesContract;
+import br.com.lucianoac.receita.sql.RecipesContract;
 
 
-public class FavoritesGridFragment extends AbstractMoviesGridFragment {
+public class FavoritesGridFragment extends AbstractRecipesGridFragment {
 
     public static FavoritesGridFragment create() {
         return new FavoritesGridFragment();
@@ -16,7 +16,7 @@ public class FavoritesGridFragment extends AbstractMoviesGridFragment {
     @Override
     @NonNull
     protected Uri getContentUri() {
-        return MoviesContract.Favorites.CONTENT_URI;
+        return RecipesContract.Favorites.CONTENT_URI;
     }
 
     @Override

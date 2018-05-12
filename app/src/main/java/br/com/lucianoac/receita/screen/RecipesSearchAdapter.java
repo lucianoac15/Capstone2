@@ -14,11 +14,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.List;
 
 import br.com.lucianoac.receita.R;
-import br.com.lucianoac.receita.dto.MovieObject;
+import br.com.lucianoac.receita.dto.RecipeObject;
 import br.com.lucianoac.receita.util.OnItemClickListener;
 
 
-public class MoviesSearchAdapter extends ArrayRecyclerViewAdapter<MovieObject, MovieGridItemViewHolder> {
+public class RecipesSearchAdapter extends ArrayRecyclerViewAdapter<RecipeObject, RecipeGridItemViewHolder> {
 
     private static final String POSTER_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
     private static final String POSTER_IMAGE_SIZE = "w780";
@@ -26,22 +26,22 @@ public class MoviesSearchAdapter extends ArrayRecyclerViewAdapter<MovieObject, M
     private Context context;
     private OnItemClickListener onItemClickListener;
 
-    public MoviesSearchAdapter(Context context, @Nullable List<MovieObject> items) {
+    public RecipesSearchAdapter(Context context, @Nullable List<RecipeObject> items) {
         super(items);
         this.context = context;
     }
 
     @Override
-    public MovieGridItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_movie, parent, false);
-        return new MovieGridItemViewHolder(itemView, onItemClickListener);
+    public RecipeGridItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_recipe, parent, false);
+        return new RecipeGridItemViewHolder(itemView, onItemClickListener);
     }
 
     @Override
     @SuppressLint("PrivateResource")
-    public void onBindViewHolder(MovieGridItemViewHolder holder, int position) {
+    public void onBindViewHolder(RecipeGridItemViewHolder holder, int position) {
 
-        MovieObject movie = getItems().get(position);
+        RecipeObject movie = getItems().get(position);
         holder.moviePoster.setContentDescription(movie.getTitle());
         Glide.with(context)
                 .load(POSTER_IMAGE_BASE_URL + POSTER_IMAGE_SIZE + movie.getPosterPath())

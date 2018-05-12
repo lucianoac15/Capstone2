@@ -21,15 +21,15 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import javax.inject.Inject;
 
-import br.com.lucianoac.receita.PopularMoviesApp;
+import br.com.lucianoac.receita.PopularRecipesApp;
 import br.com.lucianoac.receita.R;
-import br.com.lucianoac.receita.dto.MovieObject;
+import br.com.lucianoac.receita.dto.RecipeObject;
 import br.com.lucianoac.receita.sql.FavoritesService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MovieDetailActivity extends AppCompatActivity {
+public class RecipeDetailActivity extends AppCompatActivity {
 
     private static final String ARG_MOVIE = "argMovie";
     private static final String POSTER_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
@@ -51,10 +51,10 @@ public class MovieDetailActivity extends AppCompatActivity {
     @Inject
     FavoritesService favoritesService;
 
-    private MovieObject movie;
+    private RecipeObject movie;
 
-    public static void start(Context context, MovieObject movie) {
-        Intent intent = new Intent(context, MovieDetailActivity.class);
+    public static void start(Context context, RecipeObject movie) {
+        Intent intent = new Intent(context, RecipeDetailActivity.class);
         intent.putExtra(ARG_MOVIE, movie);
         context.startActivity(intent);
     }
@@ -62,15 +62,15 @@ public class MovieDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_detail);
+        setContentView(R.layout.activity_recipe_detail);
         ButterKnife.bind(this);
         movie = getIntent().getParcelableExtra(ARG_MOVIE);
 
-        ((PopularMoviesApp) getApplication()).getNetworkComponent().inject(this);
+        ((PopularRecipesApp) getApplication()).getNetworkComponent().inject(this);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.movies_grid_container, MovieDetailFragment.create(movie))
+                    .add(R.id.movies_grid_container, RecipeDetailFragment.create(movie))
                     .commit();
         }
         initToolbar();

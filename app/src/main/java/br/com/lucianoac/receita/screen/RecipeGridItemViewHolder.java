@@ -10,14 +10,14 @@ import br.com.lucianoac.receita.util.OnItemClickListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MovieGridItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class RecipeGridItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     @BindView(R.id.image_movie_poster)
     ImageView moviePoster;
 
     private OnItemClickListener onItemClickListener;
 
-    public MovieGridItemViewHolder(View itemView, @Nullable OnItemClickListener onItemClickListener) {
+    public RecipeGridItemViewHolder(View itemView, @Nullable OnItemClickListener onItemClickListener) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.onItemClickListener = onItemClickListener;

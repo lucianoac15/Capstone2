@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import br.com.lucianoac.receita.dto.ReviewObject;
 
-public class MovieReviewsResponse {
+public class RecipeReviewsResponse {
     @SerializedName("id")
     private long movieId;
 
@@ -20,7 +20,7 @@ public class MovieReviewsResponse {
     @SerializedName("total_pages")
     private int totalPages;
 
-    public MovieReviewsResponse(long movieId, int page, ArrayList<ReviewObject> results, int totalPages) {
+    public RecipeReviewsResponse(long movieId, int page, ArrayList<ReviewObject> results, int totalPages) {
         this.movieId = movieId;
         this.page = page;
         this.results = results;

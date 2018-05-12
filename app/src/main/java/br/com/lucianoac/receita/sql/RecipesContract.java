@@ -6,7 +6,7 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-public final class MoviesContract {
+public final class RecipesContract {
 
     public static final String CONTENT_AUTHORITY = "br.com.luciano.popularmovies";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
@@ -19,7 +19,7 @@ public final class MoviesContract {
 
     public static final String COLUMN_MOVIE_ID_KEY = "movie_id";
 
-    private MoviesContract() {
+    private RecipesContract() {
     }
 
     /* Inner class that defines the contents of the movies table */

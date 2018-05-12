@@ -7,22 +7,19 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import br.com.lucianoac.receita.sql.RecipesContract;
 
-import br.com.lucianoac.receita.sql.MoviesContract;
+public class RecipeObject implements Parcelable {
 
-public class MovieObject implements Parcelable {
-
-    public static final Parcelable.Creator<MovieObject> CREATOR = new Parcelable.Creator<MovieObject>() {
+    public static final Parcelable.Creator<RecipeObject> CREATOR = new Parcelable.Creator<RecipeObject>() {
         @Override
-        public MovieObject createFromParcel(Parcel source) {
-            return new MovieObject(source);
+        public RecipeObject createFromParcel(Parcel source) {
+            return new RecipeObject(source);
         }
 
         @Override
-        public MovieObject[] newArray(int size) {
-            return new MovieObject[size];
+        public RecipeObject[] newArray(int size) {
+            return new RecipeObject[size];
         }
     };
 
@@ -56,12 +53,12 @@ public class MovieObject implements Parcelable {
     @SerializedName("backdrop_path")
     private String backdropPath;
 
-    public MovieObject(long id, String title) {
+    public RecipeObject(long id, String title) {
         this.id = id;
         this.title = title;
     }
 
-    protected MovieObject(Parcel in) {
+    protected RecipeObject(Parcel in) {
         this.id = in.readLong();
         this.originalTitle = in.readString();
         this.overview = in.readString();
@@ -74,26 +71,26 @@ public class MovieObject implements Parcelable {
         this.backdropPath = in.readString();
     }
 
-    public static MovieObject fromCursor(Cursor cursor) {
-        long id = cursor.getLong(cursor.getColumnIndex(MoviesContract.MovieEntry._ID));
-        String title = cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_TITLE));
-        MovieObject movie = new MovieObject(id, title);
+    public static RecipeObject fromCursor(Cursor cursor) {
+        long id = cursor.getLong(cursor.getColumnIndex(RecipesContract.MovieEntry._ID));
+        String title = cursor.getString(cursor.getColumnIndex(RecipesContract.MovieEntry.COLUMN_TITLE));
+        RecipeObject movie = new RecipeObject(id, title);
         movie.setOriginalTitle(
-                cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_ORIGINAL_TITLE)));
+                cursor.getString(cursor.getColumnIndex(RecipesContract.MovieEntry.COLUMN_ORIGINAL_TITLE)));
         movie.setOverview(
-                cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_OVERVIEW)));
+                cursor.getString(cursor.getColumnIndex(RecipesContract.MovieEntry.COLUMN_OVERVIEW)));
         movie.setReleaseDate(
-                cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_RELEASE_DATE)));
+                cursor.getString(cursor.getColumnIndex(RecipesContract.MovieEntry.COLUMN_RELEASE_DATE)));
         movie.setPosterPath(
-                cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_POSTER_PATH)));
+                cursor.getString(cursor.getColumnIndex(RecipesContract.MovieEntry.COLUMN_POSTER_PATH)));
         movie.setPopularity(
-                cursor.getDouble(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_POPULARITY)));
+                cursor.getDouble(cursor.getColumnIndex(RecipesContract.MovieEntry.COLUMN_POPULARITY)));
         movie.setAverageVote(
-                cursor.getDouble(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_AVERAGE_VOTE)));
+                cursor.getDouble(cursor.getColumnIndex(RecipesContract.MovieEntry.COLUMN_AVERAGE_VOTE)));
         movie.setVoteCount(
-                cursor.getLong(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_VOTE_COUNT)));
+                cursor.getLong(cursor.getColumnIndex(RecipesContract.MovieEntry.COLUMN_VOTE_COUNT)));
         movie.setBackdropPath(
-                cursor.getString(cursor.getColumnIndex(MoviesContract.MovieEntry.COLUMN_BACKDROP_PATH)));
+                cursor.getString(cursor.getColumnIndex(RecipesContract.MovieEntry.COLUMN_BACKDROP_PATH)));
         return movie;
     }
 
@@ -189,7 +186,7 @@ public class MovieObject implements Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        MovieObject movie = (MovieObject) o;
+        RecipeObject movie = (RecipeObject) o;
 
         if (id != movie.id) return false;
         if (Double.compare(movie.popularity, popularity) != 0) return false;
@@ -228,16 +225,16 @@ public class MovieObject implements Parcelable {
 
     public ContentValues toContentValues() {
         ContentValues values = new ContentValues();
-        values.put(MoviesContract.MovieEntry._ID, id);
-        values.put(MoviesContract.MovieEntry.COLUMN_ORIGINAL_TITLE, originalTitle);
-        values.put(MoviesContract.MovieEntry.COLUMN_OVERVIEW, overview);
-        values.put(MoviesContract.MovieEntry.COLUMN_RELEASE_DATE, releaseDate);
-        values.put(MoviesContract.MovieEntry.COLUMN_POSTER_PATH, posterPath);
-        values.put(MoviesContract.MovieEntry.COLUMN_POPULARITY, popularity);
-        values.put(MoviesContract.MovieEntry.COLUMN_TITLE, title);
-        values.put(MoviesContract.MovieEntry.COLUMN_AVERAGE_VOTE, averageVote);
-        values.put(MoviesContract.MovieEntry.COLUMN_VOTE_COUNT, voteCount);
-        values.put(MoviesContract.MovieEntry.COLUMN_BACKDROP_PATH, backdropPath);
+        values.put(RecipesContract.MovieEntry._ID, id);
+        values.put(RecipesContract.MovieEntry.COLUMN_ORIGINAL_TITLE, originalTitle);
+        values.put(RecipesContract.MovieEntry.COLUMN_OVERVIEW, overview);
+        values.put(RecipesContract.MovieEntry.COLUMN_RELEASE_DATE, releaseDate);
+        values.put(RecipesContract.MovieEntry.COLUMN_POSTER_PATH, posterPath);
+        values.put(RecipesContract.MovieEntry.COLUMN_POPULARITY, popularity);
+        values.put(RecipesContract.MovieEntry.COLUMN_TITLE, title);
+        values.put(RecipesContract.MovieEntry.COLUMN_AVERAGE_VOTE, averageVote);
+        values.put(RecipesContract.MovieEntry.COLUMN_VOTE_COUNT, voteCount);
+        values.put(RecipesContract.MovieEntry.COLUMN_BACKDROP_PATH, backdropPath);
         return values;
     }
 

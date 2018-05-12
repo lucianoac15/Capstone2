@@ -13,14 +13,14 @@ import br.com.lucianoac.receita.dto.ReviewObject;
 import br.com.lucianoac.receita.util.OnItemClickListener;
 
 
-public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewViewHolder> {
+public class RecipeReviewsAdapter extends RecyclerView.Adapter<RecipeReviewViewHolder> {
 
     @Nullable
     private ArrayList<ReviewObject> movieReviews;
     @Nullable
     private OnItemClickListener onItemClickListener;
 
-    public MovieReviewsAdapter() {
+    public RecipeReviewsAdapter() {
         movieReviews = new ArrayList<>();
     }
 
@@ -39,15 +39,15 @@ public class MovieReviewsAdapter extends RecyclerView.Adapter<MovieReviewViewHol
     }
 
     @Override
-    public MovieReviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecipeReviewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_movie_review, parent, false);
-        return new MovieReviewViewHolder(itemView, onItemClickListener);
+                .inflate(R.layout.list_item_recipe_review, parent, false);
+        return new RecipeReviewViewHolder(itemView, onItemClickListener);
     }
 
     @Override
     @SuppressLint("PrivateResource")
-    public void onBindViewHolder(MovieReviewViewHolder holder, int position) {
+    public void onBindViewHolder(RecipeReviewViewHolder holder, int position) {
         if (movieReviews == null) {
             return;
         }

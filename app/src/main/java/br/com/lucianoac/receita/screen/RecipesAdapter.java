@@ -13,19 +13,19 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import br.com.lucianoac.receita.R;
-import br.com.lucianoac.receita.dto.MovieObject;
+import br.com.lucianoac.receita.dto.RecipeObject;
 import br.com.lucianoac.receita.util.CursorRecyclerViewAdapter;
 import br.com.lucianoac.receita.util.OnItemClickListener;
 
 
-public class MoviesAdapter extends CursorRecyclerViewAdapter<MovieGridItemViewHolder> {
+public class RecipesAdapter extends CursorRecyclerViewAdapter<RecipeGridItemViewHolder> {
 
     private static final String POSTER_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
     private static final String POSTER_IMAGE_SIZE = "w780";
     private final Context context;
     private OnItemClickListener onItemClickListener;
 
-    public MoviesAdapter(Context context, Cursor cursor) {
+    public RecipesAdapter(Context context, Cursor cursor) {
         super(cursor);
         this.context = context;
     }
@@ -36,9 +36,9 @@ public class MoviesAdapter extends CursorRecyclerViewAdapter<MovieGridItemViewHo
 
     @Override
     @SuppressLint("PrivateResource")
-    public void onBindViewHolder(MovieGridItemViewHolder viewHolder, Cursor cursor) {
+    public void onBindViewHolder(RecipeGridItemViewHolder viewHolder, Cursor cursor) {
         if (cursor != null) {
-            MovieObject movie = MovieObject.fromCursor(cursor);
+            RecipeObject movie = RecipeObject.fromCursor(cursor);
             viewHolder.moviePoster.setContentDescription(movie.getTitle());
             Glide.with(context)
                     .load(POSTER_IMAGE_BASE_URL + POSTER_IMAGE_SIZE + movie.getPosterPath())
@@ -52,13 +52,13 @@ public class MoviesAdapter extends CursorRecyclerViewAdapter<MovieGridItemViewHo
     }
 
     @Override
-    public MovieGridItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_movie, parent, false);
-        return new MovieGridItemViewHolder(itemView, onItemClickListener);
+    public RecipeGridItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_recipe, parent, false);
+        return new RecipeGridItemViewHolder(itemView, onItemClickListener);
     }
 
     @Nullable
-    public MovieObject getItem(int position) {
+    public RecipeObject getItem(int position) {
         Cursor cursor = getCursor();
         if (cursor == null) {
             return null;
@@ -70,7 +70,7 @@ public class MoviesAdapter extends CursorRecyclerViewAdapter<MovieGridItemViewHo
         for (int i = 0; i < position; i++) {
             cursor.moveToNext();
         }
-        return MovieObject.fromCursor(cursor);
+        return RecipeObject.fromCursor(cursor);
     }
 
 }

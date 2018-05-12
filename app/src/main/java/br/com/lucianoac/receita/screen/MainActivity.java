@@ -4,8 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -21,8 +19,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 
@@ -30,9 +26,9 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
-import br.com.lucianoac.receita.PopularMoviesApp;
+import br.com.lucianoac.receita.PopularRecipesApp;
 import br.com.lucianoac.receita.R;
-import br.com.lucianoac.receita.dto.MovieObject;
+import br.com.lucianoac.receita.dto.RecipeObject;
 import br.com.lucianoac.receita.sql.FavoritesService;
 import br.com.lucianoac.receita.util.OnItemSelectedListener;
 import br.com.lucianoac.receita.util.SortHelper;
@@ -70,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
 
 
     private boolean twoPaneMode;
-    private MovieObject selectedMovie = null;
+    private RecipeObject selectedMovie = null;
     private int selectedNavigationItem;
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -90,11 +86,11 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        ((PopularMoviesApp) getApplication()).getNetworkComponent().inject(this);
+        ((PopularRecipesApp) getApplication()).getNetworkComponent().inject(this);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.movies_grid_container, MoviesGridFragment.create())
+                    .replace(R.id.movies_grid_container, RecipesGridFragment.create())
                     .commit();
         }
         twoPaneMode = movieDetailContainer != null;
@@ -177,16 +173,16 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
 
 
     @Override
-    public void onItemSelected(MovieObject movie) {
+    public void onItemSelected(RecipeObject movie) {
         if (twoPaneMode && movieDetailContainer != null) {
             movieDetailContainer.setVisibility(View.VISIBLE);
             selectedMovie = movie;
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.movie_detail_container, MovieDetailFragment.create(movie))
+                    .replace(R.id.movie_detail_container, RecipeDetailFragment.create(movie))
                     .commit();
             setupFab();
         } else {
-            MovieDetailActivity.start(this, movie);
+            RecipeDetailActivity.start(this, movie);
         }
     }
 
@@ -197,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
             case R.id.drawer_item_explore:
                 if (selectedNavigationItem != 0) {
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.movies_grid_container, MoviesGridFragment.create())
+                            .replace(R.id.movies_grid_container, RecipesGridFragment.create())
                             .commit();
                     selectedNavigationItem = 0;
                     hideMovieDetailContainer();

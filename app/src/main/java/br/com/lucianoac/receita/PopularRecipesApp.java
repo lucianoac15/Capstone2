@@ -5,7 +5,7 @@ import android.app.Application;
 import br.com.lucianoac.receita.api.NetworkModule;
 
 
-public class PopularMoviesApp extends Application {
+public class PopularRecipesApp extends Application {
 
     private NetworkComponent networkComponent;
 

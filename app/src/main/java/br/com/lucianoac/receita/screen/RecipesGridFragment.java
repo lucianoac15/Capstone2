@@ -28,12 +28,12 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
-import br.com.lucianoac.receita.PopularMoviesApp;
+import br.com.lucianoac.receita.PopularRecipesApp;
 import br.com.lucianoac.receita.R;
+import br.com.lucianoac.receita.api.RecipesService;
 import br.com.lucianoac.receita.api.SearchResponse;
-import br.com.lucianoac.receita.api.MoviesService;
-import br.com.lucianoac.receita.api.TheMovieDbService;
-import br.com.lucianoac.receita.dto.MovieObject;
+import br.com.lucianoac.receita.api.TheRecipeDbService;
+import br.com.lucianoac.receita.dto.RecipeObject;
 import br.com.lucianoac.receita.util.SortHelper;
 import br.com.lucianoac.receita.util.SortingDialogFragment;
 import rx.Subscriber;
@@ -41,18 +41,18 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-public class MoviesGridFragment extends AbstractMoviesGridFragment {
+public class RecipesGridFragment extends AbstractRecipesGridFragment {
 
-    private static final String LOG_TAG = "MoviesGridFragment";
+    private static final String LOG_TAG = "RecipesGridFragment";
     private static final int SEARCH_QUERY_DELAY_MILLIS = 400;
 
     @Inject
-    MoviesService moviesService;
+    RecipesService recipesService;
     @Inject
     SortHelper sortHelper;
 
     @Inject
-    TheMovieDbService theMovieDbService;
+    TheRecipeDbService theRecipeDbService;
 
     private RecyclerViewOnScrollListener recyclerViewOnScrollListener;
     private SearchView searchView;
@@ -61,8 +61,8 @@ public class MoviesGridFragment extends AbstractMoviesGridFragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals(MoviesService.BROADCAST_UPDATE_FINISHED)) {
-                if (!intent.getBooleanExtra(MoviesService.EXTRA_IS_SUCCESSFUL_UPDATED, true)) {
+            if (action.equals(RecipesService.BROADCAST_UPDATE_FINISHED)) {
+                if (!intent.getBooleanExtra(RecipesService.EXTRA_IS_SUCCESSFUL_UPDATED, true)) {
                     Snackbar.make(swipeRefreshLayout, R.string.error_failed_to_update_movies,Snackbar.LENGTH_LONG).show();
                 }
                 swipeRefreshLayout.setRefreshing(false);
@@ -75,8 +75,8 @@ public class MoviesGridFragment extends AbstractMoviesGridFragment {
         }
     };
 
-    public static MoviesGridFragment create() {
-        return new MoviesGridFragment();
+    public static RecipesGridFragment create() {
+        return new RecipesGridFragment();
     }
 
     @Override
@@ -84,20 +84,20 @@ public class MoviesGridFragment extends AbstractMoviesGridFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        ((PopularMoviesApp) getActivity().getApplication()).getNetworkComponent().inject(this);
+        ((PopularRecipesApp) getActivity().getApplication()).getNetworkComponent().inject(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(MoviesService.BROADCAST_UPDATE_FINISHED);
+        intentFilter.addAction(RecipesService.BROADCAST_UPDATE_FINISHED);
         intentFilter.addAction(SortingDialogFragment.BROADCAST_SORT_PREFERENCE_CHANGED);
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, intentFilter);
         if (recyclerViewOnScrollListener != null) {
-            recyclerViewOnScrollListener.setLoading(moviesService.isLoading());
+            recyclerViewOnScrollListener.setLoading(recipesService.isLoading());
         }
-        swipeRefreshLayout.setRefreshing(moviesService.isLoading());
+        swipeRefreshLayout.setRefreshing(recipesService.isLoading());
     }
 
     @Override
@@ -108,7 +108,7 @@ public class MoviesGridFragment extends AbstractMoviesGridFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.fragment_movies_grid, menu);
+        inflater.inflate(R.menu.fragment_recipes_grid, menu);
 
         MenuItem searchViewMenuItem = menu.findItem(R.id.action_search);
         if (searchViewMenuItem != null) {
@@ -173,7 +173,7 @@ public class MoviesGridFragment extends AbstractMoviesGridFragment {
                 if(isOnline()) {
                     updateLayoutNoNetwork(false);
                     swipeRefreshLayout.setRefreshing(true);
-                    moviesService.loadMoreMovies();
+                    recipesService.loadMoreMovies();
                 }else{
                     swipeRefreshLayout.setRefreshing(false);
                     updateLayoutNoNetwork(true);
@@ -198,10 +198,10 @@ public class MoviesGridFragment extends AbstractMoviesGridFragment {
                 .doOnNext(query -> Log.d("search", query))
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(Schedulers.newThread())
-                .switchMap(query -> theMovieDbService.searchMovies(query, null))
+                .switchMap(query -> theRecipeDbService.searchMovies(query, null))
                 .map(SearchResponse::getResults)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<MovieObject>>() {
+                .subscribe(new Subscriber<List<RecipeObject>>() {
                     @Override
                     public void onCompleted() {
                         // do nothing
@@ -213,8 +213,8 @@ public class MoviesGridFragment extends AbstractMoviesGridFragment {
                     }
 
                     @Override
-                    public void onNext(List<MovieObject> movies) {
-                        MoviesSearchAdapter adapter = new MoviesSearchAdapter(getContext(), movies);
+                    public void onNext(List<RecipeObject> movies) {
+                        RecipesSearchAdapter adapter = new RecipesSearchAdapter(getContext(), movies);
                         adapter.setOnItemClickListener((itemView, position) ->
                                 getOnItemSelectedListener().onItemSelected(adapter.getItem(position))
                         );
@@ -235,7 +235,7 @@ public class MoviesGridFragment extends AbstractMoviesGridFragment {
         if(isOnline()) {
             updateLayoutNoNetwork(false);
             swipeRefreshLayout.setRefreshing(true);
-            moviesService.refreshMovies();
+            recipesService.refreshMovies();
         }else{
             updateLayoutNoNetwork(true);
             swipeRefreshLayout.setRefreshing(false);

@@ -5,7 +5,7 @@ import android.net.Uri;
 
 import javax.inject.Inject;
 
-import br.com.lucianoac.receita.sql.MoviesContract;
+import br.com.lucianoac.receita.sql.RecipesContract;
 
 public final class SortHelper {
 
@@ -31,11 +31,11 @@ public final class SortHelper {
         Sort sort = getSortByPreference();
         switch (sort) {
             case MOST_POPULAR:
-                return MoviesContract.MostPopularMovies.CONTENT_URI;
+                return RecipesContract.MostPopularMovies.CONTENT_URI;
             case HIGHEST_RATED:
-                return MoviesContract.HighestRatedMovies.CONTENT_URI;
+                return RecipesContract.HighestRatedMovies.CONTENT_URI;
             case MOST_RATED:
-                return MoviesContract.MostRatedMovies.CONTENT_URI;
+                return RecipesContract.MostRatedMovies.CONTENT_URI;
             default:
                 throw new IllegalStateException("Unknown sort.");
         }

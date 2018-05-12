@@ -12,10 +12,10 @@ import android.support.annotation.NonNull;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import br.com.lucianoac.receita.sql.MoviesContract;
-import br.com.lucianoac.receita.sql.MoviesDbHelper;
+import br.com.lucianoac.receita.sql.RecipesContract;
+import br.com.lucianoac.receita.sql.RecipesDbHelper;
 
-public class MoviesProvider extends ContentProvider {
+public class RecipesProvider extends ContentProvider {
 
     static final int MOVIES = 100;
     static final int MOVIE_BY_ID = 101;
@@ -27,34 +27,34 @@ public class MoviesProvider extends ContentProvider {
     private static final UriMatcher URI_MATCHER = buildUriMatcher();
     private static final String FAILED_TO_INSERT_ROW_INTO = "Failed to insert row into ";
     private static final String MOVIE_ID_SELECTION =
-            MoviesContract.MovieEntry.TABLE_NAME + "." + MoviesContract.MovieEntry._ID + " = ? ";
+            RecipesContract.MovieEntry.TABLE_NAME + "." + RecipesContract.MovieEntry._ID + " = ? ";
 
 
-    private MoviesDbHelper dbHelper;
+    private RecipesDbHelper dbHelper;
 
     static UriMatcher buildUriMatcher() {
         final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        final String authority = MoviesContract.CONTENT_AUTHORITY;
+        final String authority = RecipesContract.CONTENT_AUTHORITY;
 
-        uriMatcher.addURI(authority, MoviesContract.PATH_MOVIES, MOVIES);
-        uriMatcher.addURI(authority, MoviesContract.PATH_MOVIES + "/#", MOVIE_BY_ID);
+        uriMatcher.addURI(authority, RecipesContract.PATH_MOVIES, MOVIES);
+        uriMatcher.addURI(authority, RecipesContract.PATH_MOVIES + "/#", MOVIE_BY_ID);
 
-        uriMatcher.addURI(authority, MoviesContract.PATH_MOVIES + "/" +
-                MoviesContract.PATH_MOST_POPULAR, MOST_POPULAR_MOVIES);
-        uriMatcher.addURI(authority, MoviesContract.PATH_MOVIES + "/" +
-                MoviesContract.PATH_HIGHEST_RATED, HIGHEST_RATED_MOVIES);
-        uriMatcher.addURI(authority, MoviesContract.PATH_MOVIES + "/" +
-                MoviesContract.PATH_MOST_RATED, MOST_RATED_MOVIES);
+        uriMatcher.addURI(authority, RecipesContract.PATH_MOVIES + "/" +
+                RecipesContract.PATH_MOST_POPULAR, MOST_POPULAR_MOVIES);
+        uriMatcher.addURI(authority, RecipesContract.PATH_MOVIES + "/" +
+                RecipesContract.PATH_HIGHEST_RATED, HIGHEST_RATED_MOVIES);
+        uriMatcher.addURI(authority, RecipesContract.PATH_MOVIES + "/" +
+                RecipesContract.PATH_MOST_RATED, MOST_RATED_MOVIES);
 
-        uriMatcher.addURI(authority, MoviesContract.PATH_MOVIES + "/" +
-                MoviesContract.PATH_FAVORITES, FAVORITES);
+        uriMatcher.addURI(authority, RecipesContract.PATH_MOVIES + "/" +
+                RecipesContract.PATH_FAVORITES, FAVORITES);
 
         return uriMatcher;
     }
 
     @Override
     public boolean onCreate() {
-        dbHelper = new MoviesDbHelper(getContext());
+        dbHelper = new RecipesDbHelper(getContext());
         return true;
     }
 
@@ -63,17 +63,17 @@ public class MoviesProvider extends ContentProvider {
         final int match = URI_MATCHER.match(uri);
         switch (match) {
             case MOVIES:
-                return MoviesContract.MovieEntry.CONTENT_DIR_TYPE;
+                return RecipesContract.MovieEntry.CONTENT_DIR_TYPE;
             case MOVIE_BY_ID:
-                return MoviesContract.MovieEntry.CONTENT_ITEM_TYPE;
+                return RecipesContract.MovieEntry.CONTENT_ITEM_TYPE;
             case MOST_POPULAR_MOVIES:
-                return MoviesContract.MostPopularMovies.CONTENT_DIR_TYPE;
+                return RecipesContract.MostPopularMovies.CONTENT_DIR_TYPE;
             case HIGHEST_RATED_MOVIES:
-                return MoviesContract.HighestRatedMovies.CONTENT_DIR_TYPE;
+                return RecipesContract.HighestRatedMovies.CONTENT_DIR_TYPE;
             case MOST_RATED_MOVIES:
-                return MoviesContract.MostRatedMovies.CONTENT_DIR_TYPE;
+                return RecipesContract.MostRatedMovies.CONTENT_DIR_TYPE;
             case FAVORITES:
-                return MoviesContract.Favorites.CONTENT_DIR_TYPE;
+                return RecipesContract.Favorites.CONTENT_DIR_TYPE;
             default:
                 return null;
         }
@@ -88,7 +88,7 @@ public class MoviesProvider extends ContentProvider {
         switch (match) {
             case MOVIES:
                 cursor = dbHelper.getReadableDatabase().query(
-                        MoviesContract.MovieEntry.TABLE_NAME,
+                        RecipesContract.MovieEntry.TABLE_NAME,
                         projection,
                         selection,
                         selectionArgs,
@@ -101,19 +101,19 @@ public class MoviesProvider extends ContentProvider {
                 cursor = getMovieById(uri, projection, sortOrder);
                 break;
             case MOST_POPULAR_MOVIES:
-                cursor = getMoviesFromReferenceTable(MoviesContract.MostPopularMovies.TABLE_NAME,
+                cursor = getMoviesFromReferenceTable(RecipesContract.MostPopularMovies.TABLE_NAME,
                         projection, selection, selectionArgs, sortOrder);
                 break;
             case HIGHEST_RATED_MOVIES:
-                cursor = getMoviesFromReferenceTable(MoviesContract.HighestRatedMovies.TABLE_NAME,
+                cursor = getMoviesFromReferenceTable(RecipesContract.HighestRatedMovies.TABLE_NAME,
                         projection, selection, selectionArgs, sortOrder);
                 break;
             case MOST_RATED_MOVIES:
-                cursor = getMoviesFromReferenceTable(MoviesContract.MostRatedMovies.TABLE_NAME,
+                cursor = getMoviesFromReferenceTable(RecipesContract.MostRatedMovies.TABLE_NAME,
                         projection, selection, selectionArgs, sortOrder);
                 break;
             case FAVORITES:
-                cursor = getMoviesFromReferenceTable(MoviesContract.Favorites.TABLE_NAME,
+                cursor = getMoviesFromReferenceTable(RecipesContract.Favorites.TABLE_NAME,
                         projection, selection, selectionArgs, sortOrder);
                 break;
             default:
@@ -131,42 +131,42 @@ public class MoviesProvider extends ContentProvider {
         long id;
         switch (match) {
             case MOVIES:
-                id = db.insertWithOnConflict(MoviesContract.MovieEntry.TABLE_NAME, null,
+                id = db.insertWithOnConflict(RecipesContract.MovieEntry.TABLE_NAME, null,
                         values, SQLiteDatabase.CONFLICT_REPLACE);
                 if (id > 0) {
-                    returnUri = MoviesContract.MovieEntry.buildMovieUri(id);
+                    returnUri = RecipesContract.MovieEntry.buildMovieUri(id);
                 } else {
                     throw new android.database.SQLException(FAILED_TO_INSERT_ROW_INTO + uri);
                 }
                 break;
             case MOST_POPULAR_MOVIES:
-                id = db.insert(MoviesContract.MostPopularMovies.TABLE_NAME, null, values);
+                id = db.insert(RecipesContract.MostPopularMovies.TABLE_NAME, null, values);
                 if (id > 0) {
-                    returnUri = MoviesContract.MostPopularMovies.CONTENT_URI;
+                    returnUri = RecipesContract.MostPopularMovies.CONTENT_URI;
                 } else {
                     throw new android.database.SQLException(FAILED_TO_INSERT_ROW_INTO + uri);
                 }
                 break;
             case HIGHEST_RATED_MOVIES:
-                id = db.insert(MoviesContract.HighestRatedMovies.TABLE_NAME, null, values);
+                id = db.insert(RecipesContract.HighestRatedMovies.TABLE_NAME, null, values);
                 if (id > 0) {
-                    returnUri = MoviesContract.HighestRatedMovies.CONTENT_URI;
+                    returnUri = RecipesContract.HighestRatedMovies.CONTENT_URI;
                 } else {
                     throw new android.database.SQLException(FAILED_TO_INSERT_ROW_INTO + uri);
                 }
                 break;
             case MOST_RATED_MOVIES:
-                id = db.insert(MoviesContract.MostRatedMovies.TABLE_NAME, null, values);
+                id = db.insert(RecipesContract.MostRatedMovies.TABLE_NAME, null, values);
                 if (id > 0) {
-                    returnUri = MoviesContract.MostRatedMovies.CONTENT_URI;
+                    returnUri = RecipesContract.MostRatedMovies.CONTENT_URI;
                 } else {
                     throw new android.database.SQLException(FAILED_TO_INSERT_ROW_INTO + uri);
                 }
                 break;
             case FAVORITES:
-                id = db.insert(MoviesContract.Favorites.TABLE_NAME, null, values);
+                id = db.insert(RecipesContract.Favorites.TABLE_NAME, null, values);
                 if (id > 0) {
-                    returnUri = MoviesContract.Favorites.CONTENT_URI;
+                    returnUri = RecipesContract.Favorites.CONTENT_URI;
                 } else {
                     throw new android.database.SQLException(FAILED_TO_INSERT_ROW_INTO + uri);
                 }
@@ -185,7 +185,7 @@ public class MoviesProvider extends ContentProvider {
         int rowsUpdated;
         switch (match) {
             case MOVIES:
-                rowsUpdated = db.update(MoviesContract.MovieEntry.TABLE_NAME, values,
+                rowsUpdated = db.update(RecipesContract.MovieEntry.TABLE_NAME, values,
                         selection, selectionArgs);
                 break;
             default:
@@ -204,25 +204,25 @@ public class MoviesProvider extends ContentProvider {
         int rowsDeleted;
         switch (match) {
             case MOVIES:
-                rowsDeleted = db.delete(MoviesContract.MovieEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = db.delete(RecipesContract.MovieEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case MOVIE_BY_ID:
-                long id = MoviesContract.MovieEntry.getIdFromUri(uri);
-                rowsDeleted = db.delete(MoviesContract.MovieEntry.TABLE_NAME,
+                long id = RecipesContract.MovieEntry.getIdFromUri(uri);
+                rowsDeleted = db.delete(RecipesContract.MovieEntry.TABLE_NAME,
                         MOVIE_ID_SELECTION, new String[]{Long.toString(id)});
 
                 break;
             case MOST_POPULAR_MOVIES:
-                rowsDeleted = db.delete(MoviesContract.MostPopularMovies.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = db.delete(RecipesContract.MostPopularMovies.TABLE_NAME, selection, selectionArgs);
                 break;
             case HIGHEST_RATED_MOVIES:
-                rowsDeleted = db.delete(MoviesContract.HighestRatedMovies.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = db.delete(RecipesContract.HighestRatedMovies.TABLE_NAME, selection, selectionArgs);
                 break;
             case MOST_RATED_MOVIES:
-                rowsDeleted = db.delete(MoviesContract.MostRatedMovies.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = db.delete(RecipesContract.MostRatedMovies.TABLE_NAME, selection, selectionArgs);
                 break;
             case FAVORITES:
-                rowsDeleted = db.delete(MoviesContract.Favorites.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = db.delete(RecipesContract.Favorites.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -249,7 +249,7 @@ public class MoviesProvider extends ContentProvider {
                 int returnCount = 0;
                 try {
                     for (ContentValues value : values) {
-                        long id = db.insertWithOnConflict(MoviesContract.MovieEntry.TABLE_NAME,
+                        long id = db.insertWithOnConflict(RecipesContract.MovieEntry.TABLE_NAME,
                                 null, value, SQLiteDatabase.CONFLICT_REPLACE);
                         if (id != -1) {
                             returnCount++;
@@ -267,11 +267,11 @@ public class MoviesProvider extends ContentProvider {
     }
 
     private Cursor getMovieById(Uri uri, String[] projection, String sortOrder) {
-        long id = MoviesContract.MovieEntry.getIdFromUri(uri);
+        long id = RecipesContract.MovieEntry.getIdFromUri(uri);
         String selection = MOVIE_ID_SELECTION;
         String[] selectionArgs = new String[]{Long.toString(id)};
         return dbHelper.getReadableDatabase().query(
-                MoviesContract.MovieEntry.TABLE_NAME,
+                RecipesContract.MovieEntry.TABLE_NAME,
                 projection,
                 selection,
                 selectionArgs,
@@ -286,9 +286,9 @@ public class MoviesProvider extends ContentProvider {
 
         SQLiteQueryBuilder sqLiteQueryBuilder = new SQLiteQueryBuilder();
         sqLiteQueryBuilder.setTables(
-                tableName + " INNER JOIN " + MoviesContract.MovieEntry.TABLE_NAME +
-                        " ON " + tableName + "." + MoviesContract.COLUMN_MOVIE_ID_KEY +
-                        " = " + MoviesContract.MovieEntry.TABLE_NAME + "." + MoviesContract.MovieEntry._ID
+                tableName + " INNER JOIN " + RecipesContract.MovieEntry.TABLE_NAME +
+                        " ON " + tableName + "." + RecipesContract.COLUMN_MOVIE_ID_KEY +
+                        " = " + RecipesContract.MovieEntry.TABLE_NAME + "." + RecipesContract.MovieEntry._ID
         );
 
         return sqLiteQueryBuilder.query(dbHelper.getReadableDatabase(),
@@ -304,7 +304,7 @@ public class MoviesProvider extends ContentProvider {
     private void checkColumns(String[] projection) {
         if (projection != null) {
             HashSet<String> availableColumns = new HashSet<>(Arrays.asList(
-                    MoviesContract.MovieEntry.getColumns()));
+                    RecipesContract.MovieEntry.getColumns()));
             HashSet<String> requestedColumns = new HashSet<>(Arrays.asList(projection));
             if (!availableColumns.containsAll(requestedColumns)) {
                 throw new IllegalArgumentException("Unknown columns in projection.");

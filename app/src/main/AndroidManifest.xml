@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".PopularMoviesApp"
+        android:name=".PopularRecipesApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -28,7 +28,7 @@
         </activity>
 
         <activity
-            android:name=".screen.MovieDetailActivity"
+            android:name=".screen.RecipeDetailActivity"
             android:parentActivityName="br.com.lucianoac.receita.screen.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -37,7 +37,7 @@
         </activity>
 
         <provider
-            android:name=".provider.MoviesProvider"
+            android:name=".provider.RecipesProvider"
             android:authorities="br.com.lucianoac.receita"
             android:exported="false"/>
     </application>
