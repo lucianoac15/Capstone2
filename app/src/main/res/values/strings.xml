@@ -1,10 +1,59 @@
 <resources>
-    <string name="app_name">Receita+</string>
+    <string name="app_name">Popular Movies</string>
 
-    <string name="content_description_no_recipes_icon">Sem ícone de receita</string>
-    <string name="recipes_grid_no_recipes">Não há receitas</string>
-    <string name="recipe_detail_title">Detalhes das Receitas</string>
+    <string name="title_activity_settings">Configurações</string>
+    <string name="action_settings">Configurações</string>
+    <string name="pref_list_type_label">Ordenar Filmes Por:</string>
+    <string name="pref_list_type_key" translatable="false">listType</string>
+    <string name="pref_list_type_default" translatable="false">popular</string>
+    <string name="user_rating_label">Avaliação dos Usuários</string>
+    <string name="release_date_label">Lançamento</string>
+    <string name="sinopse_label">Sinopse</string>
+    <string name="review_label">Review</string>
+    <string name="movie_detail_title">Detalhes do Filme</string>
     <string name="n_o_foi_detectada_conex_o_com_a_internet">Não foi detectada conexão com a internet. Arraste a tela quando houver conexão para tentar novamente.</string>
     <string name="tentar_novamente">Tentar Novamente</string>
-    <string name="nao_tem_receita">Nao há receitas a serem exibidos</string>
+    <string name="nao_tem_filme">Nao há filmes a serem exibidos</string>
+
+    <string name="movie_detail_videos_title">Trailers</string>
+    <string name="movie_detail_reviews_title">Avaliações</string>
+
+    <!-- App -->
+    <!-- Actions (menu items, buttons, etc.) and common strings -->
+    <string name="action_sort">Ordenar por…</string>
+    <string name="action_search">Pesquisar por um filme</string>
+    <string name="action_cancel">Cancelar</string>
+
+    <!-- Navigation drawer items -->
+    <string name="navigation_item_explore">Explorar</string>
+    <string name="navigation_item_favorites">Favoritos</string>
+
+    <!-- Movies grid screen -->
+    <string name="movies_grid_no_movies">Não há filmes</string>
+
+    <!-- Favorites grid screen -->
+    <string name="favorites_grid_title">Favoritos</string>
+
+    <!-- Movie detail screen -->
+    <string name="movie_detail_release_date">Data de Lançamento: %s</string>
+    <string name="movie_detail_overview_title">Sinopse</string>
+
+    <!-- Sort dialog -->
+    <string name="sort_dialog_title">Ordenado Por</string>
+    <string name="sort_dialog_most_popular">mais populares</string>
+    <string name="sort_dialog_highest_rated">melhor avaliados</string>
+    <string name="sort_dialog_most_rated">mais avaliados</string>
+
+    <!-- Regular information messages -->
+    <string name="message_added_to_favorites">Adcionado aos Favoritos</string>
+    <string name="message_removed_from_favorites">Removido dos Favoritos</string>
+
+    <!-- Error messages -->
+    <string name="error_failed_to_update_movies">Ocorreu um erro ao tentar atualizar o filme</string>
+
+    <!-- Content description -->
+    <string name="content_description_movie_poster">Poster do Filme</string>
+    <string name="content_description_movie_backdrop">Filme backdrop</string>
+    <string name="content_description_movie_video">Trailers do filme</string>
+    <string name="content_description_no_movies_icon">Sem ícone de filme</string>
 </resources>

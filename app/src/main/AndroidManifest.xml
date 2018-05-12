@@ -2,21 +2,43 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.lucianoac.receita">
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
+        android:name=".PopularMoviesApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+        <activity
+            android:name="br.com.lucianoac.receita.screen.SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".RecipeDetailActivity"></activity>
-    </application>
 
+        <activity
+            android:name="br.com.lucianoac.receita.screen.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity
+            android:name=".screen.MovieDetailActivity"
+            android:parentActivityName="br.com.lucianoac.receita.screen.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="br.com.lucianoac.receita.screen.MainActivity"/>
+        </activity>
+
+        <provider
+            android:name=".provider.MoviesProvider"
+            android:authorities="br.com.lucianoac.receita"
+            android:exported="false"/>
+    </application>
 </manifest>

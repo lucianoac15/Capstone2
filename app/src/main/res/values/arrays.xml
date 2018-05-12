@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="list_type_labels">
+        <item>Populares</item>
+        <item>Melhor Avaliados</item>
+    </string-array>
+
+    <string-array name="list_type_keys">
+        <item>popular</item>
+        <item>top_rated</item>
+    </string-array>
+
+    <string-array name="pref_sort_by_labels">
+        <item>@string/sort_dialog_most_popular</item>
+        <item>@string/sort_dialog_highest_rated</item>
+        <item>@string/sort_dialog_most_rated</item>
+    </string-array>
+</resources>
