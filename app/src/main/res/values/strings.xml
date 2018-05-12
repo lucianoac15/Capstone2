@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Receita+</string>
+
+    <string name="content_description_no_recipes_icon">Sem ícone de receita</string>
+    <string name="recipes_grid_no_recipes">Não há receitas</string>
+    <string name="recipe_detail_title">Detalhes das Receitas</string>
+    <string name="n_o_foi_detectada_conex_o_com_a_internet">Não foi detectada conexão com a internet. Arraste a tela quando houver conexão para tentar novamente.</string>
+    <string name="tentar_novamente">Tentar Novamente</string>
+    <string name="nao_tem_receita">Nao há receitas a serem exibidos</string>
 </resources>
